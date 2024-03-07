@@ -8,8 +8,8 @@ import org.springframework.data.annotation.Id;
 @RequiredArgsConstructor
 public class Book {
     @Id
-    String id;
-    String title;
-    String author;
-    int price;
+   private String id;
+   private String title;
+   private String author;
+   private int price;
 }
