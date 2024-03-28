@@ -25,6 +25,7 @@ public class BookServiceImpl implements BookService {
         Book.builder()
             .title(bookDto.getTitle())
             .author(bookDto.getAuthor())
+            .description(bookDto.getDescription())
             .price(bookDto.getPrice())
             .build();
 
