@@ -8,7 +8,9 @@ import org.springframework.data.annotation.Id;
 @Data
 @RequiredArgsConstructor
 public class Cart {
-  @Id private String id;
+
+  @Id
+  private String id;
   private String userId;
   private List<Book> books;
 }

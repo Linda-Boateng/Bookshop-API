@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,9 @@ public class User implements UserDetails {
   private String password;
   private String email;
   private String role;
-
+  @DBRef
+  @Builder.Default
+  private List<Cart> cart = new ArrayList<>();
 
   @Builder.Default
   private boolean enabled = true;

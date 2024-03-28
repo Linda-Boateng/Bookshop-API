@@ -3,4 +3,8 @@ package com.example.bookshop.repository;
 import com.example.bookshop.model.Cart;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface CartRepository extends MongoRepository<Cart,String> {}
+import java.util.Optional;
+
+public interface CartRepository extends MongoRepository<Cart,String> {
+    Optional<Cart> findByUserId(String userId);
+}
