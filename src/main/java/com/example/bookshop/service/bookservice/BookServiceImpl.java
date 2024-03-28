@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,10 @@ public class BookServiceImpl implements BookService {
         .title(createdBook.getTitle())
         .author(createdBook.getAuthor())
         .build();
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 }
