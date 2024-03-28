@@ -5,12 +5,10 @@ import com.example.bookshop.dto.response.BookResponseDto;
 import com.example.bookshop.exception.DuplicateException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +29,6 @@ public class BookServiceImpl implements BookService {
 
    Book createdBook = bookRepository.save(book);
 
-   System.out.println("User is logged in: " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
-
     return BookResponseDto.builder()
         .id(createdBook.getId())
         .title(createdBook.getTitle())
@@ -43,5 +39,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public List<Book> searchBook(String query) {
+        return bookRepository.findByTitleOrAuthor(query);
     }
 }
