@@ -21,4 +21,5 @@ public class UserController {
     public ResponseEntity<UserResponseDto> register(@RequestBody UserDto request){
         return new ResponseEntity<>(userService.registerUser(request), HttpStatus.OK);
     }
+
 }
