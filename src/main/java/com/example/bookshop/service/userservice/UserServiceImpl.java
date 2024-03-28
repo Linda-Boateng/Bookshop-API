@@ -2,8 +2,8 @@ package com.example.bookshop.service.userservice;
 
 import static com.example.bookshop.model.ROLE.*;
 
-import com.example.bookshop.dto.UserDto;
-import com.example.bookshop.dto.UserResponseDto;
+import com.example.bookshop.dto.request.UserDto;
+import com.example.bookshop.dto.response.UserResponseDto;
 import com.example.bookshop.exception.DuplicateException;
 import com.example.bookshop.model.User;
 import com.example.bookshop.repository.UserRepository;

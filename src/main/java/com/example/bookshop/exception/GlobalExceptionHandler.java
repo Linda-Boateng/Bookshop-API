@@ -1,7 +1,7 @@
 package com.example.bookshop.exception;
 
 
-import com.example.bookshop.dto.ErrorResponseDto;
+import com.example.bookshop.dto.response.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.bookshop.dto;
+package com.example.bookshop.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

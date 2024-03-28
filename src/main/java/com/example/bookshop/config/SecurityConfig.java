@@ -1,7 +1,7 @@
 package com.example.bookshop.config;
 
-import com.example.bookshop.dto.UserFailureDto;
-import com.example.bookshop.dto.UserResponseDto;
+import com.example.bookshop.dto.response.UserFailureDto;
+import com.example.bookshop.dto.response.UserResponseDto;
 import com.example.bookshop.model.User;
 import com.example.bookshop.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +50,7 @@ public class SecurityConfig {
                                     List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
                             config.setAllowedHeaders(
                                     List.of("Content-Type", "Content-Disposition", "Authorization"));
+                            config.setAllowCredentials(true);
                             return config;
                         }
                 ))

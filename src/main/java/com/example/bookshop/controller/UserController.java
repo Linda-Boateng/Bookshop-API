@@ -1,7 +1,7 @@
 package com.example.bookshop.controller;
 
-import com.example.bookshop.dto.UserDto;
-import com.example.bookshop.dto.UserResponseDto;
+import com.example.bookshop.dto.request.UserDto;
+import com.example.bookshop.dto.response.UserResponseDto;
 import com.example.bookshop.service.userservice.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> register(@RequestBody UserDto request){
-        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.OK);
+        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.CREATED);
     }
 
 }
