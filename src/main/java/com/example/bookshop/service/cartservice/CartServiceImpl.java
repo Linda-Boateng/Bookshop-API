@@ -49,4 +49,12 @@ public class CartServiceImpl implements CartService {
     if (cartExist.isEmpty()) throw new NotFoundException("You have not added to your cart");
     return CartResponseDto.builder().cartList(cartExist).build();
     }
+
+    @Override
+    public CartResponseDto deleteCart(String userId) throws IllegalAccessException {
+        List<Cart> cartExist = cartRepository.findAllByUserId(userId);
+        if(cartExist.isEmpty()) throw new IllegalAccessException("You have no item in your cart");
+        cartRepository.deleteByUserId(userId);
+        return CartResponseDto.builder().message("Cart deleted successfully").build();
+    }
 }

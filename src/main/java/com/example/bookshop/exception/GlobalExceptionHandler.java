@@ -18,10 +18,17 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(value = {NotFoundException.class})
-  ResponseEntity<ErrorResponseDto> handleIllegalAccessExceptionError(
+  ResponseEntity<ErrorResponseDto> handleNotFoundExceptionError(
           NotFoundException  exception, HttpServletRequest httpServletRequest) {
     return new ResponseEntity<>(
         new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
         HttpStatus.NOT_FOUND);
+  }
+  @ExceptionHandler(value = {IllegalAccessException.class})
+  ResponseEntity<ErrorResponseDto> handleIllegalAccessExceptionError(
+          IllegalAccessException  exception, HttpServletRequest httpServletRequest) {
+    return new ResponseEntity<>(
+            new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
+            HttpStatus.NOT_FOUND);
   }
 }
