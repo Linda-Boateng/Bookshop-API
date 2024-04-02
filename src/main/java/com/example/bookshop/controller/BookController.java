@@ -17,11 +17,6 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
-    @PostMapping("/book")
-    public ResponseEntity<BookResponseDto> registerBook(@RequestBody BookDto bookDto){
-        return new ResponseEntity<>(bookService.addBook(bookDto), HttpStatus.CREATED);
-    }
-
     @GetMapping("/books")
     public ResponseEntity<List<Book>> findAllBooks(){
     return new ResponseEntity<>(bookService.getAllBooks(),HttpStatus.OK);

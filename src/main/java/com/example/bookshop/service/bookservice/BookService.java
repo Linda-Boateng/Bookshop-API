@@ -10,4 +10,6 @@ public interface BookService {
     List<Book> getAllBooks();
 
     List<Book> searchBook(String query);
+
+    BookResponseDto deleteBook(String title);
 }
