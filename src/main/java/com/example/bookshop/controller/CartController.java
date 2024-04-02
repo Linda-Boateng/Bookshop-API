@@ -6,10 +6,7 @@ import com.example.bookshop.service.cartservice.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -21,5 +18,10 @@ public class CartController {
     @PostMapping("/cart")
     public ResponseEntity<CartResponseDto> addToCart(@RequestBody CartDto cartDto){
         return new ResponseEntity<>(cartService.addToCart(cartDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/cart/{userId}")
+    public ResponseEntity<CartResponseDto> getCart(@PathVariable String userId) {
+        return new ResponseEntity<>(cartService.getCart(userId),HttpStatus.OK);
     }
 }
