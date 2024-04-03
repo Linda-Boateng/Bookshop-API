@@ -12,4 +12,6 @@ public interface BookService {
     List<Book> searchBook(String query);
 
     BookResponseDto deleteBook(String title);
+
+    BookResponseDto editBook(BookDto bookDto);
 }

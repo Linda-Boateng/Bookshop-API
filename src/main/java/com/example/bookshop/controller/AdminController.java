@@ -31,4 +31,9 @@ public class AdminController {
     public ResponseEntity<BookResponseDto> deleteBook(@PathVariable String title){
         return new ResponseEntity<>(bookService.deleteBook(title),HttpStatus.NO_CONTENT);
     }
+
+    @PatchMapping                                                                                                                                       ("/book")
+    public ResponseEntity<BookResponseDto> editBook(@RequestBody BookDto bookDto){
+        return new ResponseEntity<>(bookService.editBook(bookDto),HttpStatus.CREATED);
+    }
 }
