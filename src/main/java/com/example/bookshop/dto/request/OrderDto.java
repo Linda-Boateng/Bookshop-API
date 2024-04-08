@@ -8,7 +8,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class CartDto {
+public class OrderDto {
     private String userId;
     private List<Book> books;
+    private double totalAmount;
 }

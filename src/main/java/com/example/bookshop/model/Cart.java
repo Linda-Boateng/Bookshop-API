@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.http.HttpStatusCode;
 
 @Data
 @RequiredArgsConstructor

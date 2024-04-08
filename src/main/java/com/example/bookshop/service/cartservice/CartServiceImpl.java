@@ -6,15 +6,14 @@ import com.example.bookshop.exception.NotFoundException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Cart;
 import com.example.bookshop.repository.CartRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class CartServiceImpl implements CartService {
             return CartResponseDto.builder().message("Books added to cart successfully").build();
         }else{
            existingCart = new Cart();
-           existingCart.setId(cartDto.getUserId());
+           existingCart.setUserId(cartDto.getUserId());
            existingCart.setBooks(cartDto.getBooks());
            Cart createdCart = mongoTemplate.save(existingCart);
 
