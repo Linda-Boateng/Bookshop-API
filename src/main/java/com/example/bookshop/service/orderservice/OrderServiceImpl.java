@@ -1,7 +1,10 @@
 package com.example.bookshop.service.orderservice;
 
 import com.example.bookshop.dto.request.OrderDto;
+import com.example.bookshop.dto.request.PaymentDto;
 import com.example.bookshop.dto.response.OrderResponseDto;
+import com.example.bookshop.dto.response.PaymentResponseDto;
+import com.example.bookshop.exception.IncompletePaymentException;
 import com.example.bookshop.exception.NotFoundException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Cart;
@@ -34,6 +37,19 @@ public class OrderServiceImpl implements OrderService{
         return OrderResponseDto.builder().message("Checkout completed proceed to payment").order(createdOrder).build();
     }
 
+    @Override
+    public PaymentResponseDto orderPayment(PaymentDto paymentDto) {
+    Optional<Order> existingOrder = orderRepository.findById(paymentDto.getId());
+    if (existingOrder.isEmpty()) throw new NotFoundException("Order not found");
+    Order userOrder = existingOrder.get();
+    double amount = userOrder.getTotalAmount();
+    if (paymentDto.getTotalAmount() != amount)
+      throw new IncompletePaymentException("Enter full Amount please");
+    userOrder.setPaid(true);
+    orderRepository.save(userOrder);
+    cartRepository.deleteByUserId(paymentDto.getUserId());
+    return PaymentResponseDto.builder().message("Payment made successfully").build();
+    }
 
     private double calculatePrice(List<Book> books){
         double totalPrice = 0;

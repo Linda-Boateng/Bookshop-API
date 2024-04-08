@@ -19,16 +19,25 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = {NotFoundException.class})
   ResponseEntity<ErrorResponseDto> handleNotFoundExceptionError(
-          NotFoundException  exception, HttpServletRequest httpServletRequest) {
+      NotFoundException exception, HttpServletRequest httpServletRequest) {
     return new ResponseEntity<>(
         new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
         HttpStatus.NOT_FOUND);
   }
+
   @ExceptionHandler(value = {IllegalAccessException.class})
   ResponseEntity<ErrorResponseDto> handleIllegalAccessExceptionError(
-          IllegalAccessException  exception, HttpServletRequest httpServletRequest) {
+      IllegalAccessException exception, HttpServletRequest httpServletRequest) {
     return new ResponseEntity<>(
-            new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
-            HttpStatus.NOT_FOUND);
+        new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
+        HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(value = {IncompletePaymentException.class})
+  ResponseEntity<ErrorResponseDto> handleIncompletePaymentException(
+      IncompletePaymentException exception, HttpServletRequest httpServletRequest) {
+    return new ResponseEntity<>(
+        new ErrorResponseDto(httpServletRequest.getRequestURI(), exception.getMessage()),
+        HttpStatus.PAYMENT_REQUIRED);
   }
 }

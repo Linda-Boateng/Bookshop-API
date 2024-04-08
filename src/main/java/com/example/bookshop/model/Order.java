@@ -14,6 +14,8 @@ public class Order {
     @Id
     private String id;
     private String userId;
-    private List<Book> books;
     private double totalAmount;
+    @Builder.Default
+    private boolean paid = false;
+    private List<Book> books;
 }

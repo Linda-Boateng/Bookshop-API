@@ -1,11 +1,12 @@
 package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.request.OrderDto;
+import com.example.bookshop.dto.request.PaymentDto;
 import com.example.bookshop.dto.response.OrderResponseDto;
+import com.example.bookshop.dto.response.PaymentResponseDto;
 import com.example.bookshop.service.orderservice.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,5 +22,10 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<OrderResponseDto> order(@RequestBody OrderDto orderDto){
         return new ResponseEntity<>(orderService.checkOut(orderDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<PaymentResponseDto> payment(@RequestBody PaymentDto paymentDto){
+        return new ResponseEntity<>(orderService.orderPayment(paymentDto),HttpStatus.OK);
     }
 }
