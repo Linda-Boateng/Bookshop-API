@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 public class CartResponseDto {
     private String message;
-    private List<Cart> cartList;
+    private Cart cart;
 }

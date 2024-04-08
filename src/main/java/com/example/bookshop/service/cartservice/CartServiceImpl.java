@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,22 +38,22 @@ public class CartServiceImpl implements CartService {
            existingCart = new Cart();
            existingCart.setId(cartDto.getUserId());
            existingCart.setBooks(cartDto.getBooks());
-            mongoTemplate.save(existingCart);
+           Cart createdCart = mongoTemplate.save(existingCart);
 
-            return CartResponseDto.builder().message("Cart created and books added successfully").build();
+            return CartResponseDto.builder().cart(createdCart).message("Cart created and books added successfully").build();
         }
     }
 
     @Override
     public CartResponseDto getCart(String userId) {
-        List<Cart> cartExist = cartRepository.findAllByUserId(userId);
+        Optional<Cart> cartExist = cartRepository.findByUserId(userId);
     if (cartExist.isEmpty()) throw new NotFoundException("You have not added to your cart");
-    return CartResponseDto.builder().cartList(cartExist).build();
+    return CartResponseDto.builder().cart(cartExist.get()).build();
     }
 
     @Override
     public CartResponseDto deleteCart(String userId) throws IllegalAccessException {
-        List<Cart> cartExist = cartRepository.findAllByUserId(userId);
+        Optional<Cart> cartExist = cartRepository.findByUserId(userId);
         if(cartExist.isEmpty()) throw new IllegalAccessException("You have no item in your cart");
         cartRepository.deleteByUserId(userId);
         return CartResponseDto.builder().message("Cart deleted successfully").build();
