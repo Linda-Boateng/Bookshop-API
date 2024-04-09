@@ -12,14 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/public")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
-
-    @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> register(@RequestBody UserDto request){
-        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.CREATED);
-    }
 
 }

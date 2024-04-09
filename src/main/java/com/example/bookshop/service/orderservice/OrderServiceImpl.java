@@ -51,6 +51,11 @@ public class OrderServiceImpl implements OrderService{
     return PaymentResponseDto.builder().message("Payment made successfully").build();
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
     private double calculatePrice(List<Book> books){
         double totalPrice = 0;
         for (Book book: books){

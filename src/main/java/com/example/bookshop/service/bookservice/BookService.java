@@ -10,4 +10,6 @@ public interface BookService {
     List<Book> getAllBooks();
 
     List<Book> searchBook(String query);
+
+    List<Book> purchasedBooks(String userId, boolean isPaid);
 }
