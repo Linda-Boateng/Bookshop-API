@@ -1,5 +1,6 @@
 package com.example.bookshop.config;
 
+import com.example.bookshop.dto.response.LogoutResponseDto;
 import com.example.bookshop.dto.response.UserFailureDto;
 import com.example.bookshop.dto.response.UserResponseDto;
 import com.example.bookshop.model.User;
@@ -69,6 +70,9 @@ public class SecurityConfig {
                         .successHandler(this::authenticationSuccessHandler)
                         .failureHandler(this::authenticationFailureHandler)
                         .permitAll())
+                .logout(logout -> logout.logoutUrl("/api/v1/public/logout")
+                        .logoutSuccessHandler(this::logoutSuccessHandler)
+                        .permitAll())
                 .build();
     }
     @Bean
@@ -128,5 +132,12 @@ public class SecurityConfig {
                         response.getOutputStream(),
                         new UserFailureDto("Bad credentials", request.getRequestURI()));
 
+    }
+    private void logoutSuccessHandler(HttpServletRequest request, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
+        httpServletResponse.setContentType(CONTENT_TYPE);
+        new ObjectMapper().writeValue(httpServletResponse.getOutputStream(), LogoutResponseDto.builder().message(
+                "You have been logged out").build());
+
+        httpServletResponse.setStatus(HttpServletResponse.SC_OK);
     }
 }

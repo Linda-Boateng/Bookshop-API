@@ -25,6 +25,7 @@ public class BookController {
     @GetMapping("/books")
     public  ResponseEntity<List<Book>> getPurchasedBooks(@RequestParam String userId,
                                                          @RequestParam boolean isPaid){
-        return new ResponseEntity<>(bookService.purchasedBooks(userId,isPaid),HttpStatus.OK);
+        return new ResponseEntity<>(bookService.purchasedBooks(userId,isPaid
+        ),HttpStatus.OK);
     }
 }
