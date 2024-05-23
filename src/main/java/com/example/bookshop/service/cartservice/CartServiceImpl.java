@@ -33,14 +33,13 @@ public class CartServiceImpl implements CartService {
             mongoTemplate.updateFirst(query, update, Cart.class);
 
             return CartResponseDto.builder().message("Books added to cart successfully").build();
-        }else{
+        }
            existingCart = new Cart();
            existingCart.setUserId(cartDto.getUserId());
            existingCart.setBooks(cartDto.getBooks());
            Cart createdCart = mongoTemplate.save(existingCart);
 
             return CartResponseDto.builder().cart(createdCart).message("Cart created and books added successfully").build();
-        }
     }
 
     @Override

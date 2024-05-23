@@ -34,10 +34,11 @@ public class AdminController {
     public ResponseEntity<BookResponseDto> registerBook(@RequestBody BookDto bookDto){
         return new ResponseEntity<>(bookService.addBook(bookDto), HttpStatus.CREATED);
     }
-  
-    @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getAllOrders(){
-        return new ResponseEntity<>(orderService.getAllOrders(),HttpStatus.OK);
+
+  @GetMapping("/orders")
+  public ResponseEntity<List<Order>> getAllOrders() {
+    return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
+        }
 
     @DeleteMapping("/book/{title}")
     public ResponseEntity<BookResponseDto> deleteBook(@PathVariable String title){
