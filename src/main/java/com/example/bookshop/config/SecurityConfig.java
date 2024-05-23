@@ -43,6 +43,7 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
     return http.cors(
             cors ->
                 cors.configurationSource(

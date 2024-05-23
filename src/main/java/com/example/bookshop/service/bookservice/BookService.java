@@ -12,4 +12,9 @@ public interface BookService {
     List<Book> searchBook(String query);
 
     List<Book> purchasedBooks(String userId, boolean isPaid);
+
+    BookResponseDto deleteBook(String title);
+
+    BookResponseDto editBook(BookDto bookDto);
+
 }

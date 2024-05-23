@@ -12,4 +12,6 @@ public interface BookRepository extends MongoRepository<Book,String> {
 
     @Query("{$or:[{'title': {$regex : ?0, $options: 'i'}}, {'author': {$regex : ?0, $options: 'i'}}]}")
     List<Book> findByTitleOrAuthor(String query);
+
+    void deleteByTitle(String title);
 }
