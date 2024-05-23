@@ -1,5 +1,6 @@
 package com.example.bookshop.config;
 
+import com.example.bookshop.dto.response.LogoutResponseDto;
 import com.example.bookshop.dto.response.UserFailureDto;
 import com.example.bookshop.dto.response.UserResponseDto;
 import com.example.bookshop.model.User;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,35 +43,46 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(
-                cors -> cors.configurationSource(
-                        request -> {
-                            CorsConfiguration config = new CorsConfiguration();
-                            config.setAllowedOrigins(List.of());
-                            config.setAllowedMethods(
-                                    List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
-                            config.setAllowedHeaders(
-                                    List.of("Content-Type", "Content-Disposition", "Authorization"));
-                            config.setAllowCredentials(true);
-                            return config;
-                        }
-                ))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request-> request
-                .requestMatchers("/api/v1/public/**","api/v1/admin/signup")
-                .permitAll()
-                .requestMatchers("/api/v1/user/**")
-                .hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers("/api/v1/admin/**")
-                .hasAnyAuthority("ADMIN")
-                .anyRequest()
-                .authenticated())
-                .formLogin(form -> form.loginProcessingUrl("/api/v1/public/login")
-                        .usernameParameter("email")
-                        .successHandler(this::authenticationSuccessHandler)
-                        .failureHandler(this::authenticationFailureHandler)
-                        .permitAll())
-                .build();
+
+    return http.cors(
+            cors ->
+                cors.configurationSource(
+                    request -> {
+                      CorsConfiguration config = new CorsConfiguration();
+                      config.setAllowedOrigins(List.of());
+                      config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
+                      config.setAllowedHeaders(
+                          List.of("Content-Type", "Content-Disposition", "Authorization"));
+                      config.setAllowCredentials(true);
+                      return config;
+                    }))
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            request ->
+                request
+                    .requestMatchers("/api/v1/public/**")
+                    .permitAll()
+                    .requestMatchers("/api/v1/user/**")
+                    .hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/v1/admin/**")
+                    .hasAnyAuthority("ADMIN")
+                    .anyRequest()
+                    .authenticated())
+        .oauth2Login(Customizer.withDefaults())
+        .formLogin(
+            form ->
+                form.loginProcessingUrl("/api/v1/public/login")
+                    .usernameParameter("email")
+                    .successHandler(this::authenticationSuccessHandler)
+                    .failureHandler(this::authenticationFailureHandler)
+                    .permitAll())
+        .logout(
+            logout ->
+                logout
+                    .logoutUrl("/api/v1/public/logout")
+                    .logoutSuccessHandler(this::logoutSuccessHandler)
+                    .permitAll())
+        .build();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -128,5 +141,12 @@ public class SecurityConfig {
                         response.getOutputStream(),
                         new UserFailureDto("Bad credentials", request.getRequestURI()));
 
+    }
+    private void logoutSuccessHandler(HttpServletRequest request, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
+        httpServletResponse.setContentType(CONTENT_TYPE);
+        new ObjectMapper().writeValue(httpServletResponse.getOutputStream(), LogoutResponseDto.builder().message(
+                "You have been logged out").build());
+
+        httpServletResponse.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
+
     @GetMapping("/books")
     public ResponseEntity<List<Book>> findAllBooks(){
     return new ResponseEntity<>(bookService.getAllBooks(),HttpStatus.OK);
@@ -25,5 +26,12 @@ public class BookController {
     @GetMapping("/book")
     public ResponseEntity<List<Book>> searchBook(@RequestParam("query") String query){
         return new ResponseEntity<>(bookService.searchBook(query),HttpStatus.OK);
+    }
+
+    @GetMapping("/books")
+    public  ResponseEntity<List<Book>> getPurchasedBooks(@RequestParam String userId,
+                                                         @RequestParam boolean isPaid){
+        return new ResponseEntity<>(bookService.purchasedBooks(userId,isPaid
+        ),HttpStatus.OK);
     }
 }

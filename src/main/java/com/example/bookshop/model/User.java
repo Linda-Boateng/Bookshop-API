@@ -27,6 +27,9 @@ public class User implements UserDetails {
   private String role;
   @DBRef
   @Builder.Default
+  private List<Order> orders = new ArrayList<>();
+  @DBRef
+  @Builder.Default
   private List<Cart> cart = new ArrayList<>();
 
   @Builder.Default

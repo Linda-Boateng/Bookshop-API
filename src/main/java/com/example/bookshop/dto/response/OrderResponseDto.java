@@ -1,14 +1,12 @@
 package com.example.bookshop.dto.response;
 
-import com.example.bookshop.model.Cart;
+import com.example.bookshop.model.Order;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
-public class CartResponseDto {
+public class OrderResponseDto {
     private String message;
-    private Cart cart;
+    private Order order;
 }
