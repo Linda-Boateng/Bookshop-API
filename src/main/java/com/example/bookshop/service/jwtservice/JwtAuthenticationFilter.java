@@ -1,5 +1,7 @@
 package com.example.bookshop.service.jwtservice;
 
+import static com.example.bookshop.util.ConstantStrings.*;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -14,6 +16,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Base64;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
@@ -25,11 +29,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.Base64;
-
-import static com.example.bookshop.util.ConstantStrings.*;
-
 @Service
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -40,12 +39,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${public.url}")
+    private String publicUrl;
+
     @Override
     public void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+        if (request.getRequestURI().contains(publicUrl)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         try {
             String jwt = extractJwtFromRequest(request);
             if (!jwt.isEmpty()) {
@@ -55,8 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = verifier.verify(jwt);
                 String email = decodedJWT.getClaim(EMAIL).asString();
 
-                System.out.println("Email: " + email);
-
                 UserDto userDto = new UserDto();
                 userDto.setEmail(email);
                 userDto.setFirstName(decodedJWT.getClaim(FIRSTNAME).asString());
@@ -64,8 +68,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 userDto.setRole(decodedJWT.getClaim(ROLE).asString());
 
                 request.setAttribute(USERDTO, userDto);
-
-                System.out.println("UserDto: " + userDto);
 
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(email);
@@ -99,6 +101,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+
     public String extractJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
@@ -106,5 +109,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         throw new BadCredentialsException(INVALID_TOKEN);
     }
+
+
 
 }
