@@ -1,7 +1,5 @@
 package com.example.bookshop.controller;
 
-import com.example.bookshop.dto.request.BookDto;
-import com.example.bookshop.dto.response.BookResponseDto;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.service.bookservice.BookService;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
-
-
-    @GetMapping("/books")
-    public ResponseEntity<List<Book>> findAllBooks(){
-    return new ResponseEntity<>(bookService.getAllBooks(),HttpStatus.OK);
-    }
 
     @GetMapping("/book")
     public ResponseEntity<List<Book>> searchBook(@RequestParam("query") String query){

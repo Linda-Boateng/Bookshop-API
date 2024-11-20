@@ -27,5 +27,10 @@ public class PublicController {
     public ResponseEntity<List<Book>> findAllBooks(){
         return new ResponseEntity<>(bookService.getAllBooks(),HttpStatus.OK);
     }
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDto> registerAdmin(@RequestBody UserDto userDto){
+        return new ResponseEntity<>(userService.registerUser(userDto),HttpStatus.CREATED);
+    }
+
 
 }
