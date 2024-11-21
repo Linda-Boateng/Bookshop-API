@@ -7,5 +7,5 @@ public interface CartService {
     CartResponseDto addToCart(CartDto cartDto);
 
     CartResponseDto getCart(String userId);
-    CartResponseDto deleteCart(String userId) throws IllegalAccessException;
+    CartResponseDto deleteCart(String userId);
 }

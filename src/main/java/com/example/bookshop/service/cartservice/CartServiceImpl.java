@@ -18,42 +18,49 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-    private final MongoTemplate mongoTemplate;
-    private final CartRepository cartRepository;
-    @Override
-    public CartResponseDto addToCart(CartDto cartDto) {
-        Query query = Query.query(Criteria.where("userId").is(cartDto.getUserId()));
+  private final MongoTemplate mongoTemplate;
+  private final CartRepository cartRepository;
 
-        Cart existingCart = mongoTemplate.findOne(query, Cart.class);
-        if (existingCart != null) {
-            List<Book> updatedBooks = existingCart.getBooks();
-            updatedBooks.addAll(cartDto.getBooks());
+  @Override
+  public CartResponseDto addToCart(CartDto cartDto) {
+    Query query = Query.query(Criteria.where("userId").is(cartDto.getUserId()));
 
-            Update update = Update.update("books", updatedBooks);
-            mongoTemplate.updateFirst(query, update, Cart.class);
+    Book book = mongoTemplate.findById(cartDto.getBookId(), Book.class);
 
-            return CartResponseDto.builder().message("Books added to cart successfully").build();
-        }
-           existingCart = new Cart();
-           existingCart.setUserId(cartDto.getUserId());
-           existingCart.setBooks(cartDto.getBooks());
-           Cart createdCart = mongoTemplate.save(existingCart);
+    Cart existingCart = mongoTemplate.findOne(query, Cart.class);
+    if (existingCart != null) {
+      List<Book> updatedBooks = existingCart.getBooks();
+      updatedBooks.add(book);
 
-            return CartResponseDto.builder().cart(createdCart).message("Cart created and books added successfully").build();
+      Update update = Update.update("books", updatedBooks);
+      mongoTemplate.updateFirst(query, update, Cart.class);
+
+      return CartResponseDto.builder().message("Books added to cart successfully").build();
     }
+    existingCart = new Cart();
+    existingCart.setUserId(cartDto.getUserId());
+    assert book != null;
+    existingCart.setBooks(List.of(book));
+    Cart createdCart = mongoTemplate.save(existingCart);
 
-    @Override
-    public CartResponseDto getCart(String userId) {
-        Optional<Cart> cartExist = cartRepository.findByUserId(userId);
+    return CartResponseDto.builder()
+        .cart(createdCart)
+        .message("Cart created and books added successfully")
+        .build();
+  }
+
+  @Override
+  public CartResponseDto getCart(String userId) {
+    Optional<Cart> cartExist = cartRepository.findByUserId(userId);
     if (cartExist.isEmpty()) throw new NotFoundException("You have not added to your cart");
     return CartResponseDto.builder().cart(cartExist.get()).build();
-    }
+  }
 
-    @Override
-    public CartResponseDto deleteCart(String userId) throws IllegalAccessException {
-        Optional<Cart> cartExist = cartRepository.findByUserId(userId);
-        if(cartExist.isEmpty()) throw new IllegalAccessException("You have no item in your cart");
-        cartRepository.deleteByUserId(userId);
-        return CartResponseDto.builder().message("Cart deleted successfully").build();
-    }
+  @Override
+  public CartResponseDto deleteCart(String userId) {
+    Optional<Cart> cartExist = cartRepository.findByUserId(userId);
+    if (cartExist.isEmpty()) throw new NotFoundException("You have no item in your cart");
+    cartRepository.deleteByUserId(userId);
+    return CartResponseDto.builder().message("Cart deleted successfully").build();
+  }
 }
