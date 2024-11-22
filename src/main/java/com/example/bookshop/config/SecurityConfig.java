@@ -57,7 +57,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             request ->
                 request
-                    .requestMatchers("/api/v1/public/**")
+                    .requestMatchers("/api/public/**")
                     .permitAll()
                     .requestMatchers("/api/v1/user/**", "/actuator/**")
                     .hasAnyAuthority(USER, ADMIN)

@@ -51,10 +51,10 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public BookResponseDto deleteBook(String title) {
-    Optional<Book> bookExist = bookRepository.findByTitle(title);
+  public BookResponseDto deleteBook(String bookId) {
+    Optional<Book> bookExist = bookRepository.findById(bookId);
     if (bookExist.isEmpty()) throw new NotFoundException("Book already deleted");
-    bookRepository.deleteByTitle(title);
+    bookRepository.deleteById(bookId);
     return BookResponseDto.builder().message("Book deleted successfully").build();
   }
 

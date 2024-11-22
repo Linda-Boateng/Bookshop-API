@@ -13,7 +13,7 @@ public interface BookService {
 
     List<Book> purchasedBooks(String userId, boolean isPaid);
 
-    BookResponseDto deleteBook(String title);
+    BookResponseDto deleteBook(String bookId);
 
     BookResponseDto editBook(BookDto bookDto);
 

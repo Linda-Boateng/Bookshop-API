@@ -20,9 +20,9 @@ public class AdminController {
     return new ResponseEntity<>(bookService.addBook(bookDto), HttpStatus.CREATED);
   }
 
-  @DeleteMapping("/book/{title}")
-  public ResponseEntity<BookResponseDto> deleteBook(@PathVariable String title) {
-    return new ResponseEntity<>(bookService.deleteBook(title), HttpStatus.NO_CONTENT);
+  @DeleteMapping("/book/{bookId}")
+  public ResponseEntity<BookResponseDto> deleteBook(@PathVariable String bookId) {
+    return new ResponseEntity<>(bookService.deleteBook(bookId), HttpStatus.NO_CONTENT);
   }
 
   @PatchMapping("/book")

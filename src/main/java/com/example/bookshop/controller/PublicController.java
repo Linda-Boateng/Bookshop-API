@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/public")
+@RequestMapping("/api/public")
 @RequiredArgsConstructor
 public class PublicController {
     private final BookService bookService;

@@ -26,7 +26,7 @@ public class CartController {
     }
 
     @DeleteMapping("/cart/{userId}")
-    public ResponseEntity<CartResponseDto> deleteCart(@PathVariable String userId) throws IllegalAccessException {
+    public ResponseEntity<CartResponseDto> deleteCart(@PathVariable String userId) {
         return new ResponseEntity<>(cartService.deleteCart(userId),HttpStatus.OK);
     }
 }
