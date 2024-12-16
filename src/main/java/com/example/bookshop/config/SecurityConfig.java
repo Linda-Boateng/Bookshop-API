@@ -57,7 +57,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             request ->
                 request
-                    .requestMatchers("/api/public/**")
+                    .requestMatchers("/api/public/v1/**")
                     .permitAll()
                     .requestMatchers("/api/v1/user/**", "/actuator/**")
                     .hasAnyAuthority(USER, ADMIN)
@@ -69,7 +69,6 @@ public class SecurityConfig {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-        //        .oauth2Login(Customizer.withDefaults())
         .build();
   }
 
