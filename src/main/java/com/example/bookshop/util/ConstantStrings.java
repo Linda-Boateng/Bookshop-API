@@ -1,5 +1,8 @@
 package com.example.bookshop.util;
 
+/**
+ * Constant Strings
+ */
 public final class ConstantStrings {
   private ConstantStrings() {
   }

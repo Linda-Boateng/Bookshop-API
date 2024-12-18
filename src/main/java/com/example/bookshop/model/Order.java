@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
+/**
+ * Order Model
+ */
 @Data
 @Builder
 @AllArgsConstructor

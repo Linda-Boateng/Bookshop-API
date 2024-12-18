@@ -9,6 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+/**
+ * Custom User Details
+ */
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 

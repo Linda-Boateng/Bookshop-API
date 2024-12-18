@@ -3,9 +3,11 @@ package com.example.bookshop.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+/**
+ * Book Model
+ */
 @Data
 @AllArgsConstructor
 @Builder

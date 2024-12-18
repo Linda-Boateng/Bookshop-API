@@ -13,6 +13,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+
+    /**
+     * This method is used to load user by email
+     * @param email the email of the user
+     * @return the user details
+     * @throws UsernameNotFoundException if the username is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email.trim().toLowerCase());

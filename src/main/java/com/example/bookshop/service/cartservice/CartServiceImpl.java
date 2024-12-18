@@ -21,6 +21,9 @@ public class CartServiceImpl implements CartService {
   private final MongoTemplate mongoTemplate;
   private final CartRepository cartRepository;
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CartResponseDto addToCart(CartDto cartDto) {
     Query query = Query.query(Criteria.where("userId").is(cartDto.getUserId()));
@@ -49,6 +52,9 @@ public class CartServiceImpl implements CartService {
         .build();
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public CartResponseDto getCart(String userId) {
     Optional<Cart> cartExist = cartRepository.findByUserId(userId);
@@ -56,6 +62,9 @@ public class CartServiceImpl implements CartService {
     return CartResponseDto.builder().cart(cartExist.get()).build();
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public CartResponseDto deleteCart(String userId) {
     Optional<Cart> cartExist = cartRepository.findByUserId(userId);

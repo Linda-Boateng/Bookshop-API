@@ -7,6 +7,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
+/**
+ * This class handles access denied exceptions.
+ */
 public class AccessDeniedExceptionHandler implements AccessDeniedHandler {
     @Override
     public void handle(

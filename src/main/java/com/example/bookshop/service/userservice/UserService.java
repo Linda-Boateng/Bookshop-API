@@ -1,8 +1,11 @@
 package com.example.bookshop.service.userservice;
 
 import com.example.bookshop.dto.request.UserDto;
-import com.example.bookshop.dto.response.UserResponseDto;
 
 public interface UserService {
-    UserResponseDto registerUser(UserDto request);
+    /**
+     * This method is used to register a user
+     * @param request the request object
+     */
+    void registerUser(UserDto request);
 }

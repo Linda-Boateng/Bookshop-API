@@ -7,8 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * This class handles global exceptions.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
   @ExceptionHandler(value = {DuplicateException.class})
   ResponseEntity<ErrorResponseDto> handleInternalServerError(
       DuplicateException exception, HttpServletRequest httpServletRequest) {

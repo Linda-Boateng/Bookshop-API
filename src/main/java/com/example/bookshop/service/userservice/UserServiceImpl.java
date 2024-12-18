@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public UserResponseDto registerUser(UserDto request) {
+  public void registerUser(UserDto request) {
     User userExists = userRepository.findByEmail(request.getEmail());
 
     if (userExists != null) throw new DuplicateException(USER_ALREADY_EXIST);
@@ -34,6 +37,6 @@ public class UserServiceImpl implements UserService {
 
     User created = userRepository.save(user);
 
-    return UserResponseDto.builder().id(created.getId()).email(created.getEmail()).build();
+      UserResponseDto.builder().id(created.getId()).email(created.getEmail()).build();
   }
 }

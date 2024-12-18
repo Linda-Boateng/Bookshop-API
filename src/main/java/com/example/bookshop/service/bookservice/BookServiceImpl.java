@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +21,10 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
   private final OrderRepository orderRepository;
 
+
+  /**
+  *{@inheritDoc}
+   */
   @Override
   public BookResponseDto addBook(BookDto bookDto) {
     Optional<Book> bookExist = bookRepository.findByTitle(bookDto.getTitle());
@@ -40,16 +43,25 @@ public class BookServiceImpl implements BookService {
     return BookResponseDto.builder().message("Book Added Successfully").book(createdBook).build();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public List<Book> searchBook(String query) {
     return bookRepository.findByTitleOrAuthor(query);
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public BookResponseDto deleteBook(String bookId) {
     Optional<Book> bookExist = bookRepository.findById(bookId);
@@ -58,6 +70,9 @@ public class BookServiceImpl implements BookService {
     return BookResponseDto.builder().message("Book deleted successfully").build();
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public BookResponseDto editBook(BookDto bookDto) {
     Optional<Book> existingBook = bookRepository.findByTitle(bookDto.getTitle());
@@ -71,6 +86,9 @@ public class BookServiceImpl implements BookService {
     return BookResponseDto.builder().message("Book updated successfully").book(updatedBook).build();
   }
 
+    /**
+     * {@inheritDoc}
+     */
   @Override
   public List<Book> purchasedBooks(String userId, boolean isPaid) {
     List<Order> userOrders = orderRepository.findAllByUserIdAndPaid(userId, isPaid);

@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+/**
+ * Cart Model
+ */
 @Data
 @RequiredArgsConstructor
 public class Cart {
